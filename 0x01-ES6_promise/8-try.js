@@ -1,5 +1,5 @@
-// 8-main.js
-import divideFunction from './8-try';
-
-console.log(divideFunction(10, 2)); // Expected output: 5
-console.log(divideFunction(10, 0));  // Expected to throw an error
+// 8-try.js
+export default function divideFunction(numvalue, denvalue) {
+  if (denvalue === 0) throw new Error('cannot divide by 0'); // Throws an error for zero denominator
+  return numvalue / denvalue; // Returns the result of the division
+}
