@@ -2,17 +2,30 @@
 import signUpUser from './4-user-promise';
 import uploadPhoto from './5-photo-reject';
 
-export default function handleProfileSignup(firstName, lastName, fileName) {
-  // Call both functions and store their promises
-  const userPromise = signUpUser(firstName, lastName);
-  const uploadPromise = uploadPhoto(fileName);
+export default async function handleProfileSignup(firstName, lastName, fileName) {
+  const results = []; // Changed from res to results
 
-  // Use Promise.allSettled to wait for both promises to settle
-  return Promise.allSettled([userPromise, uploadPromise]).then((results) => {
-    // Map the results to the desired structure
-    return results.map((result) => ({
-      status: result.status,
-      value: result.status === 'fulfilled' ? result.value : result.reason,
-    }));
-  });
+  // Handle the user signup
+  try {
+    const userResponse = await signUpUser(firstName, lastName); // Changed from user to userResponse
+    results.push({ status: 'fulfilled', value: userResponse });
+  } catch (error) {
+    results.push({
+      status: 'rejected',
+      value: error, // Keep the error object
+    });
+  }
+
+  // Handle the photo upload
+  try {
+    const uploadResponse = await uploadPhoto(fileName); // Changed from photo to uploadResponse
+    results.push({ status: 'fulfilled', value: uploadResponse });
+  } catch (error) {
+    results.push({
+      status: 'rejected',
+      value: `Error: ${fileName} cannot be processed`, // Keep the same error message format
+    });
+  }
+
+  return results; // Return the array with both results
 }
