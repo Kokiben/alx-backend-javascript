@@ -1,13 +1,12 @@
-// 0-promise.js
+/* eslint-disable no-unused-vars */
 export default function getResponseFromAPI() {
   return new Promise((resolve, reject) => {
-    // Simulate an asynchronous API call
+    // Simulating an asynchronous API call
     setTimeout(() => {
-      // For demonstration, we resolve the promise after 1 second
-      resolve("Response from API");
-      
-      // If there were an error, you could call reject() like this:
-      // reject(new Error("Something went wrong"));
-    }, 1000);
+      // Here you can resolve or reject based on your logic
+      resolve('Response from API'); // Resolve with a success message
+      // Uncomment the line below to simulate an error
+      // reject(new Error('API call failed')); // Uncomment to test error handling
+    }, 1000); // Wait for 1 second before resolving
   });
 }
