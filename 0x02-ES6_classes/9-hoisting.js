@@ -1,5 +1,5 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable max-classes-per-file */
+/* Fix issues related to variable names and scope */
+/* Ensure that the classes and list of students  */
 
 export class HolbertonClass {
   constructor(year, location) {
