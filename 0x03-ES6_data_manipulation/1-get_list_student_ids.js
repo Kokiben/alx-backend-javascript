@@ -1,7 +1,6 @@
 // 1-get_list_student_ids.js
-export default function getListStudentIds(students) {
-  if (!Array.isArray(students)) {
-    return [];
-  }
-  return students.map(student => student.id);
+// This function is taking one argument which is an arr
+export default function getListStudentIds(arg) {
+  if (!Array.isArray(arg)) return [];
+  return arg.map((student) => student.id);
 }
