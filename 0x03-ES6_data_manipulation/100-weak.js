@@ -1,16 +1,21 @@
-// 100-main.js
-import { queryAPI, weakMap } from './100-weak.js';
+const weakMap = new WeakMap();
 
-const endpoint = { protocol: 'http', name: 'getUsers' };
-weakMap.get(endpoint);
+const queryAPI = (endpoint) => {
+  // Get the current request count or initialize it to 0 if not set.
+  let requestCount = weakMap.get(endpoint) || 0;
 
-queryAPI(endpoint);
-console.log(weakMap.get(endpoint)); // Output: 1
+  // Increment the request count by 1.
+  requestCount += 1;
+  
+  // Update the WeakMap with the new request count.
+  weakMap.set(endpoint, requestCount);
 
-queryAPI(endpoint);
-console.log(weakMap.get(endpoint)); // Output: 2
+  // Check if the request count exceeds the threshold.
+  if (requestCount >= 5) {
+    throw new Error('Endpoint load is high');
+  }
 
-queryAPI(endpoint);
-queryAPI(endpoint);
-queryAPI(endpoint);
-queryAPI(endpoint); // This will throw an error: "Endpoint load is high"
+  return requestCount;
+};
+
+export { weakMap, queryAPI };
