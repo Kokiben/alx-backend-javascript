@@ -1,16 +1,16 @@
 // 8-clean_set.js
-export default function cleanSet(set, startString) {
-  if (typeof startString !== 'string' || startString === '') {
-    return '';
-  }
-
-  const resultArray = [];
+// Create a function named cleanSet that returns a string
+export default function cleanSet(valueSet, startString) {
+  let resultString = '';
   
-  for (const value of set) {
-    if (value.startsWith(startString)) {
-      resultArray.push(value.slice(startString.length));
+  if (!startString || !startString.length) return resultString;
+
+  for (const item of valueSet) {
+    if (item && item.startsWith(startString)) {
+      resultString += `${item.slice(startString.length)}-`;
     }
   }
 
-  return resultArray.join('-');
+  // Remove the trailing '-' if resultString is not empty
+  return resultString ? resultString.slice(0, -1) : resultString;
 }
