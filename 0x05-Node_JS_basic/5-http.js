@@ -2,7 +2,7 @@ const httpServer = require('http');
 const fileSystem = require('fs');
 const { args } = require('process');
 
-function app(fileLocation, outputStream) {
+function countStudents(fileLocation, outputStream) {
   if (fileSystem.existsSync(fileLocation)) {
     const fileData = fileSystem.readFileSync(fileLocation, 'utf8');
     const studentsList = [];
