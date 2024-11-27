@@ -1,18 +1,18 @@
 const express = require('express');
-const { argv: arguments } = require('process');
+const { argv } = require('process');
 const fs = require('fs');
 
 const app = express();
 
-app.get('/', (req, response) => {
+app.get('/', (request, response) => {
   response.set('Content-Type', 'text/plain');
   response.send('Hello Holberton School!');
 });
 
-app.get('/students', (req, response) => {
+app.get('/students', (request, response) => {
   response.set('Content-Type', 'text/plain');
   response.write('This is the list of our students\n');
-  fs.readFile(arguments[2], 'utf8', (err, line) => {
+  fs.readFile(argv[2], 'utf8', (err, line) => {
     if (err) {
       throw Error('Cannot load the database');
     }
@@ -26,8 +26,8 @@ app.get('/students', (req, response) => {
     const uniqueFields = new Set();
     studentFieldInfo.forEach((item) => uniqueFields.add(item[1]));
     const fieldStudentCount = {};
-    uniqueFields.forEach((field) => { (fieldStudentCount[field] = 0); });
-    studentFieldInfo.forEach((student) => { (fieldStudentCount[student[1]] += 1); });
+    uniqueFields.forEach((field) => { fieldStudentCount[field] = 0; });
+    studentFieldInfo.forEach((student) => { fieldStudentCount[student[1]] += 1; });
     response.write(`Number of students: ${result.filter((check) => check.length > 3).length}\n`);
     Object.keys(fieldStudentCount).forEach((field) => 
       response.write(`Number of students in ${field}: ${fieldStudentCount[field]}. List: ${studentFieldInfo.filter((student) => student[1] === field).map((student) => student[0]).join(', ')}\n`)
