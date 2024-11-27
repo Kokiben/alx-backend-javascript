@@ -1,16 +1,16 @@
-const httpServer = require('http');  // Renamed 'http' to 'httpServer'
+const http = require('http');
 
-const serverAddress = 'localhost';  // Renamed 'serverHost' to 'serverAddress'
-const serverListeningPort = 1245;  // Renamed 'serverPort' to 'serverListeningPort'
+const serverAddress = 'localhost';
+const serverListeningPort = 1245;
 
-const app = httpServer.createServer((request, serverResponse) => {  // Renamed 'server' to 'app' and 'response' to 'serverResponse'
+const app = http.createServer((request, serverResponse) => {
   serverResponse.statusCode = 200;
   serverResponse.setHeader('Content-Type', 'text/plain');
   serverResponse.end('Hello Holberton School!');
 });
 
-app.listen(serverListeningPort, serverAddress, () => {  // Used 'app' instead of 'server'
-  console.log(`Server running at http://${serverAddress}:${serverListeningPort}/`);  // Used 'serverAddress' and 'serverListeningPort'
+app.listen(serverListeningPort, serverAddress, () => {
+  console.log(`Server running at http://${serverAddress}:${serverListeningPort}/`);
 });
 
 module.exports = app;  // Export 'app'
