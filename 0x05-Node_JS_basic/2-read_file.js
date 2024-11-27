@@ -1,13 +1,13 @@
-const fileSystem = require('fs'); // Changed 'fs' to 'fileSystem'
+const fileSystem = require('fs');
 
 function countStudents(fileLocation) {
   try {
-    const fileData = fileSystem.readFileSync(fileLocation, 'utf8'); // Updated 'fs' to 'fileSystem'
+    const fileData = fileSystem.readFileSync(fileLocation, 'utf8');
     const studentRecords = [];
     fileData.split('\n').forEach((line) => {
       studentRecords.push(line.split(','));
     });
-    studentRecords.shift(); // Removed header row
+    studentRecords.shift();
 
     const studentCourses = [];
     studentRecords.forEach((record) => studentCourses.push([record[0], record[3]]));
