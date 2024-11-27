@@ -1,36 +1,38 @@
 const express = require('express');
-const { argv } = require('process');
+const { argv: arguments } = require('process');
 const fs = require('fs');
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res.set('Content-Type', 'text/plain');
-  res.send('Hello Holberton School!');
+app.get('/', (req, response) => {
+  response.set('Content-Type', 'text/plain');
+  response.send('Hello Holberton School!');
 });
 
-app.get('/students', (req, res) => {
-  res.set('Content-Type', 'text/plain');
-  res.write('This is the list of our students\n');
-  fs.readFile(argv[2], 'utf8', (err, data) => {
+app.get('/students', (req, response) => {
+  response.set('Content-Type', 'text/plain');
+  response.write('This is the list of our students\n');
+  fs.readFile(arguments[2], 'utf8', (err, line) => {
     if (err) {
       throw Error('Cannot load the database');
     }
     const result = [];
-    data.split('\n').forEach((data) => {
-      result.push(data.split(','));
+    line.split('\n').forEach((line) => {
+      result.push(line.split(','));
     });
     result.shift();
-    const newis = [];
-    result.forEach((data) => newis.push([data[0], data[3]]));
-    const fields = new Set();
-    newis.forEach((item) => fields.add(item[1]));
-    const final = {};
-    fields.forEach((data) => { (final[data] = 0); });
-    newis.forEach((data) => { (final[data[1]] += 1); });
-    res.write(`Number of students: ${result.filter((check) => check.length > 3).length}\n`);
-    Object.keys(final).forEach((data) => res.write(`Number of students in ${data}: ${final[data]}. List: ${newis.filter((n) => n[1] === data).map((n) => n[0]).join(', ')}\n`));
-    res.end();
+    const studentFieldInfo = [];
+    result.forEach((line) => studentFieldInfo.push([line[0], line[3]]));
+    const uniqueFields = new Set();
+    studentFieldInfo.forEach((item) => uniqueFields.add(item[1]));
+    const fieldStudentCount = {};
+    uniqueFields.forEach((field) => { (fieldStudentCount[field] = 0); });
+    studentFieldInfo.forEach((student) => { (fieldStudentCount[student[1]] += 1); });
+    response.write(`Number of students: ${result.filter((check) => check.length > 3).length}\n`);
+    Object.keys(fieldStudentCount).forEach((field) => 
+      response.write(`Number of students in ${field}: ${fieldStudentCount[field]}. List: ${studentFieldInfo.filter((student) => student[1] === field).map((student) => student[0]).join(', ')}\n`)
+    );
+    response.end();
   });
 });
 
