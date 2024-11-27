@@ -1,8 +1,8 @@
 const fileSystem = require('fs'); // Changed 'fs' to 'fileSystem'
 
-function countStudents(path) {
+function countStudents(fileLocation) {
   try {
-    const fileData = fileSystem.readFileSync(path, 'utf8'); // Updated 'fs' to 'fileSystem'
+    const fileData = fileSystem.readFileSync(fileLocation, 'utf8'); // Updated 'fs' to 'fileSystem'
     const studentRecords = [];
     fileData.split('\n').forEach((line) => {
       studentRecords.push(line.split(','));
