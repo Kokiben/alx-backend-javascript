@@ -1,29 +1,29 @@
 const assert = require('assert');
-require('mocha');
+const mocha = require('mocha');
 const calculateNumber = require('./1-calcul');
 
-describe('calculateNumber', function () {
-    it('should return 6 when summing 1.4 and 4.5', function () {
+mocha.describe('calculateNumber', () => {
+    mocha.it('should sum two numbers', () => {
         assert.equal(calculateNumber('SUM', 1.4, 4.5), 6);
     });
 
-    it('should return -4 when subtracting 4.5 from 1.4', function () {
+    mocha.it('should subtract two numbers', () => {
         assert.equal(calculateNumber('SUBTRACT', 1.4, 4.5), -4);
     });
 
-    it('should return 0.2 when dividing 1.4 by 4.5', function () {
+    mocha.it('should divide two numbers', () => {
         assert.equal(calculateNumber('DIVIDE', 1.4, 4.5), 0.2);
     });
 
-    it('should return "Error" when dividing by 0', function () {
+    mocha.it('should return "Error" when dividing by zero', () => {
         assert.equal(calculateNumber('DIVIDE', 1.4, 0), 'Error');
     });
 
-    it('should return "Error" for invalid operation type', function () {
-        assert.equal(calculateNumber(5, 1, 4), 'Error'); // Invalid operation type
+    mocha.it('should return "Error" for invalid input', () => {
+        assert.equal(calculateNumber(5, 1, 4), 'Error');
     });
 
-    it('should return "Error" for unsupported operation "other"', function () {
-        assert.equal(calculateNumber('other', 1, 4), 'Error'); // Invalid operation type
+    mocha.it('should return "Error" for unsupported operation', () => {
+        assert.equal(calculateNumber('plus', 1, 4), 'Error');
     });
 });
