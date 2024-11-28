@@ -11,4 +11,4 @@ const calculateNumber = (type, a, b) => {
   return 0;
 };
 
-module.exports = calculateNumber;  // Use module.exports for CommonJS
+export default calculateNumber;  // Use export default for ES Modules

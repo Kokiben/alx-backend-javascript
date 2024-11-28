@@ -1,22 +1,16 @@
 {
-  "name": "unittests_in_js",
+  "name": "0x06-unittests_in_js",
   "version": "1.0.0",
-  "description": "A project for learning the basics of unittests in Node.js.",
-  "author": "Bezaleel Olakunori <bezaleeloci@gmail.com>",
-  "private": true,
-  "license": "MIT",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "lint": "./node_modules/.bin/eslint",
-    "lint-all": "./node_modules/.bin/eslint [0-9]*.js",
-    "lint-fix-all": "./node_modules/.bin/eslint --fix [0-9]*.js",
-    "test": "node ./node_modules/mocha/bin/mocha --require babel-register --exit",
-    "dev": "nodemon --exec babel-node --presets babel-preset-env ./full_server/server.js ./database.csv"
+    "test": "mocha"
   },
-  "dependencies": {
-    "chai-http": "^4.3.0",
-    "express": "^4.17.1"
-  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
+<<<<<<< HEAD
 <<<<<<< HEAD
     "@babel/preset-env": "^7.26.0",
     "@babel/register": "^7.25.9",
@@ -51,4 +45,10 @@
     "yarn": "1.x"
   }
 >>>>>>> 84b706f5444536fb96b17a991eb4efeca0c21d0e
+=======
+    "chai": "^5.1.2",
+    "mocha": "^10.8.2"
+  },
+  "type": "module"
+>>>>>>> 79e64ef5e8d09034e3b873f1039a72645346531c
 }
