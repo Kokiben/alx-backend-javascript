@@ -1,21 +1,24 @@
 const assert = require('assert');
-const {it, describe} = require('mocha');
-const calculateNumber = require('./0-calcul')
+const calculateNumber = require('./0-calcul');
 
-describe('calculateNumber', () => {
-    it('checking if number round', () => {
+describe('calculateNumber', function() {
+    it('should return 4 when rounding 1 and 3', function() {
         assert.equal(calculateNumber(1, 3), 4);
     });
-    it('chacking if numbers round 2nd round', () => {
+
+    it('should return 5 when rounding 1 and 3.7', function() {
         assert.equal(calculateNumber(1, 3.7), 5);
     });
-    it('checking if numbers round 3rd round', () => {
+
+    it('should return 5 when rounding 1.2 and 3.7', function() {
         assert.equal(calculateNumber(1.2, 3.7), 5);
     });
-    it('checking if numbers round 4th round', () => {
+
+    it('should return 6 when rounding 1.5 and 3.7', function() {
         assert.equal(calculateNumber(1.5, 3.7), 6);
     });
-    it('chacking negative return', () => {
+
+    it('should return -5 when rounding -1.3 and -3.7', function() {
         assert.equal(calculateNumber(-1.3, -3.7), -5);
     });
 });
