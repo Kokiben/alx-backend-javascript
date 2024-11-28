@@ -1,33 +1,23 @@
-const calculateNumber = (type, a, b) => {
-  // Ensure exactly 3 arguments are passed
-  if (arguments.length !== 3) {
-    return 'Error';
-  }
-
-  // Handle unsupported operations
-  const validOperations = ['SUM', 'SUBTRACT', 'DIVIDE'];
-  if (!validOperations.includes(type)) {
-    return 'Error';
-  }
-
-  // Handle the operations
-  if (type === 'SUM') {
-    return Math.round(a) + Math.round(b);
-  }
-
-  if (type === 'SUBTRACT') {
-    return Math.round(a) - Math.round(b);
-  }
-
-  if (type === 'DIVIDE') {
-    // Handle division by zero or numbers that round to zero
-    if (Math.round(b) === 0) {
-      return 'Error';
+function calculateNumber(operation, a, b) {
+    // Check if the operation is valid and both a and b are numbers
+    if (typeof operation !== 'string' || isNaN(a) || isNaN(b)) {
+        return 'Error';
     }
-    return Math.round(a) / Math.round(b);
-  }
 
-  return 'Error';  // Return 'Error' for any other unexpected cases
-};
+    // Perform the correct operation based on the operation string
+    switch (operation) {
+        case 'SUM':
+            return Math.round(a) + Math.round(b);
+        case 'SUBTRACT':
+            return Math.round(a) - Math.round(b);
+        case 'DIVIDE':
+            if (b === 0) {
+                return 'Error';
+            }
+            return Math.round(a) / Math.round(b);
+        default:
+            return 'Error';  // Return 'Error' if operation
+    }
+}
 
-export default calculateNumber;  // Use export default for ES Modules
+module.exports = calculateNumber;
