@@ -1,22 +1,17 @@
-function calculateNumber(operation, a, b) {
-    // Check if the operation is valid and both a and b are numbers
-    if (typeof operation !== 'string' || isNaN(a) || isNaN(b)) {
-        return 'Error';
-    }
-
-    // Perform the correct operation based on the operation string
-    switch (operation) {
-        case 'SUM':
+function calculateNumber(type, a, b) {
+    if (typeof (type) == String || type == 'SUM' || type == 'SUBTRACT' || type == 'DIVIDE') {
+        if (type == 'SUM') {
             return Math.round(a) + Math.round(b);
-        case 'SUBTRACT':
+        } else if (type == 'SUBTRACT') {
             return Math.round(a) - Math.round(b);
-        case 'DIVIDE':
-            if (b === 0) {
-                return 'Error';
+        } else if (type == 'DIVIDE') {
+            if (Math.round(b) != 0) {
+                return Math.round(a) / Math.round(b);
             }
-            return Math.round(a) / Math.round(b);
-        default:
-            return 'Error';  // Return 'Error' if operation is unsupported
+            return 'Error';
+        }
+    } else {
+        return 'Error'
     }
 }
 
