@@ -4,12 +4,18 @@ const { expect } = require('chai');
 const sendPaymentRequestToApi = require('./3-payment');
 
 describe('sendPaymentRequestToApi', () => {
-  it('sendPaymentRequestToApi uses the calculateNumber method of Utils', () => {
-    const bigBrother = sinon.spy(Utils);
+  it('uses the calculateNumber method of Utils', () => {
+    // Spy on the calculateNumber method of Utils
+    const utilsSpy = sinon.spy(Utils, 'calculateNumber');
 
+    // Call the function being tested
     sendPaymentRequestToApi(100, 20);
-    expect(bigBrother.calculateNumber.calledWith('SUM', 100, 20)).to.be.true;
-    expect(bigBrother.calculateNumber.callCount).to.be.equal(1);
-    bigBrother.calculateNumber.restore();
+
+    // Assertions
+    expect(utilsSpy.calledWith('SUM', 100, 20)).to.be.true; // Ensure calculateNumber is called with correct arguments
+    expect(utilsSpy.callCount).to.equal(1); // Ensure calculateNumber is called exactly once
+
+    // Restore the spy after the test
+    utilsSpy.restore();
   });
 });
