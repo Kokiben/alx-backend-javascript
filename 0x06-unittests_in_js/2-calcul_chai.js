@@ -1,23 +1,14 @@
-function calculateNumber(operation, a, b) {
-    // Check if the operation is valid and both a and b are numbers
-    if (typeof operation !== 'string' || isNaN(a) || isNaN(b)) {
-        return 'Error';
-    }
+const calculateNumber = (type, a, b) => {
+  if (type === 'SUM') {
+    return Math.round(a) + Math.round(b);
+  }
+  if (type === 'SUBTRACT') {
+    return Math.round(a) - Math.round(b);
+  }
+  if (type === 'DIVIDE') {
+    return Math.round(b) === 0 ? 'Error' : Math.round(a) / Math.round(b);
+  }
+  return 0;
+};
 
-    // Perform the correct operation based on the operation string
-    switch (operation) {
-        case 'SUM':
-            return Math.round(a) + Math.round(b);
-        case 'SUBTRACT':
-            return Math.round(a) - Math.round(b);
-        case 'DIVIDE':
-            if (b === 0) {
-                return 'Error';
-            }
-            return Math.round(a) / Math.round(b);
-        default:
-            return 'Error';  // Return 'Error' if operation
-    }
-}
-
-export default calculateNumber;
+module.exports = calculateNumber;
