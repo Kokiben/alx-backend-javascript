@@ -3,27 +3,27 @@ const { expect } = require('chai');
 const sendPaymentRequestToApi = require('./5-payment');
 
 describe('sendPaymentRequestToApi', () => {
-  let bigBrother;
+  let consoleSpy;
 
   beforeEach(() => {
-    if (!bigBrother) {
-      bigBrother = sinon.spy(console);
-    }
+    // Set up a spy on console.log before each test
+    consoleSpy = sinon.spy(console, 'log');
   });
 
   afterEach(() => {
-    bigBrother.log.resetHistory();
+    // Restore the original console.log after each test
+    consoleSpy.restore();
   });
 
-  it('sendPaymentRequestToApi(100, 20) logs "The total is: 120" to the console', () => {
+  it('Logs correct total for inputs 100 and 20 to the console', () => {
     sendPaymentRequestToApi(100, 20);
-    expect(bigBrother.log.calledWith('The total is: 120')).to.be.true;
-    expect(bigBrother.log.calledOnce).to.be.true;
+    expect(consoleSpy.calledWith('The total is: 120')).to.be.true; // Check if the correct message was logged
+    expect(consoleSpy.calledOnce).to.be.true; // Ensure console.log was called exactly once
   });
 
-  it('sendPaymentRequestToApi(10, 10) logs "The total is: 20" to the console', () => {
+  it('Logs correct total for inputs 10 and 10 to the console', () => {
     sendPaymentRequestToApi(10, 10);
-    expect(bigBrother.log.calledWith('The total is: 20')).to.be.true;
-    expect(bigBrother.log.calledOnce).to.be.true;
+    expect(consoleSpy.calledWith('The total is: 20')).to.be.true; // Check if the correct message was logged
+    expect(consoleSpy.calledOnce).to.be.true; // Ensure console.log was called exactly once
   });
 });
