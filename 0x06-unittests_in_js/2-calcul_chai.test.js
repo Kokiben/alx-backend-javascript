@@ -1,66 +1,67 @@
-const mocha = require('mocha');  // Explicitly importing Mocha
+const assert = require('assert');
 const { expect } = require('chai');
+const { it, describe, test } = require('mocha');
 const calculateNumber = require('./2-calcul_chai');
 
-mocha.describe('calculateNumber', () => {
-    mocha.describe('SUM', () => {
-      mocha.it('rounding 1 and 3', () => {
+describe('calculateNumber', () => {
+    describe('SUM', () => {
+      it('checking if numbers round', () => {
         expect(calculateNumber('SUM', 1, 3)).to.equal(4);
       });
-      mocha.it('rounding 1 and 3.7', () => {
+      it('checking if numbers round 2nd round', () => {
         expect(calculateNumber('SUM', 1, 3.7)).to.equal(5);
       });
-      mocha.it('rounding 1.2 and 3.7', () => {
+      it('checking if numbers round 3rd round', () => {
         expect(calculateNumber('SUM', 1.2, 3.7)).to.equal(5);
       });
-      mocha.it('rounding 1.5 and 3.7', () => {
+      it('checking if numbers round 4th round', () => {
         expect(calculateNumber('SUM', 1.5, 3.7)).to.equal(6);
       });
-      mocha.it('rounding 1.4 and 4.5', () => {
+      it('checking if numbers round 5th round', () => {
         expect(calculateNumber('SUM', 1.4, 4.5)).to.equal(6);
       });
-      mocha.it('negative sum', () => {
+      it('checking negative return', () => {
         expect(calculateNumber('SUM', -1.3, -3.7)).to.equal(-5);
       });
     });
-    mocha.describe('SUBTRACT', () => {
-      mocha.it('rounding 1 and 3', () => {
+    describe('SUBTRACT', () => {
+      it('checking if numbers round', () => {
         expect(calculateNumber('SUBTRACT', 1, 3)).to.equal(-2);
       });
-      mocha.it('rounding 1 and 3.7', () => {
+      it('checking if numbers round 2nd round', () => {
         expect(calculateNumber('SUBTRACT', 1, 3.7)).to.equal(-3);
       });
-      mocha.it('rounding 6.2 and 3.7', () => {
+      it('checking if numbers round 3rd round', () => {
         expect(calculateNumber('SUBTRACT', 6.2, 3.7)).to.equal(2);
       });
-      mocha.it('rounding 5.5 and 3.7', () => {
+      it('checking if numbers round 4th round', () => {
         expect(calculateNumber('SUBTRACT', 5.5, 3.7)).to.equal(2);
       });
-      mocha.it('rounding 1.4 and 4.5', () => {
+      it('checking if numbers round 5th round', () => {
         expect(calculateNumber('SUBTRACT', 1.4, 4.5)).to.equal(-4);
       });
-      mocha.it('negative subtract', () => {
+      it('checking negative return', () => {
         expect(calculateNumber('SUBTRACT', -1.3, -3.7)).to.equal(3);
       });
     });
-    mocha.describe('DIVIDE', () => {
-      mocha.it('rounding 3 and 1', () => {
+    describe('DIVIDE', () => {
+      it('checking if numbers round', () => {
         expect(calculateNumber('DIVIDE', 3, 1)).to.equal(3);
       });
-      mocha.it('rounding 4 and 3.7', () => {
+      it('checking if numbers round 2nd round', () => {
         expect(calculateNumber('DIVIDE', 4, 3.7)).to.equal(1);
       });
-      mocha.it('rounding 2.2 and 0.7', () => {
+      it('checking if numbers round 3rd round', () => {
         expect(calculateNumber('DIVIDE', 2.2, 0.7)).to.equal(2);
       });
-      mocha.it('rounding 15 and 2.7', () => {
+      it('checking if numbers round 4th round', () => {
         expect(calculateNumber('DIVIDE', 15, 2.7)).to.equal(5);
       });
-      mocha.it('rounding 1.4 and 4.5', () => {
+      it('checking if numbers round 5th round', () => {
         expect(calculateNumber('DIVIDE', 1.4, 4.5)).to.equal(0.2);
       });
-      mocha.it('division by zero', () => {
+      it('checking negative return', () => {
         expect(calculateNumber('DIVIDE', -1.3, 0)).to.equal('Error');
       });
     });
-});
+  });
