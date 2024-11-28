@@ -16,7 +16,7 @@ function calculateNumber(operation, a, b) {
             }
             return Math.round(a) / Math.round(b);
         default:
-            return 'Error';  // Return 'Error' if operation is unsupported
+            return 'Error';  // Return 'Error' if operation
     }
 }
 
