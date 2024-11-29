@@ -1,36 +1,36 @@
 const express = require('express');
 
 const app = express();
-const PORT = 7865;
+const port = 7865;
 
 app.use(express.json());
 
-app.get('/', (_req, res) => {
-  res.send('Welcome to the payment system');
+app.get('/', (_rqt, rsp) => {
+  rsp.send('Welcome to the payment system');
 });
 
-app.get('/cart/:id(\\d+)', (req, res) => {
-  const id = req.params.id;
+app.get('/cart/:id(\\d+)', (rqt, rsp) => {
+  const id = rqt.params.id;
 
-  res.send(`Payment methods for cart ${id}`);
+  rsp.send(`Payment methods for cart ${id}`);
 });
 
-app.get('/available_payments', (_req, res) => {
-  res.json({ payment_methods: { credit_cards: true, paypal: false } });
+app.get('/available_payments', (_rqt, rsp) => {
+  rsp.json({ payment_methods: { credit_cards: true, paypal: false } });
 });
 
-app.post('/login', (req, res) => {
+app.post('/login', (rqt, rsp) => {
   let username = '';
 
-  if (req.body) {
-    username = req.body.userName;
+  if (rqt.body) {
+    username = rqt.body.userName;
   }
 
-  res.send(`Welcome ${username}`);
+  rsp.send(`Welcome ${username}`);
 });
 
-app.listen(PORT, () => {
-  console.log(`API available on localhost port ${PORT}`);
+app.listen(port, () => {
+  console.log(`API available on localhost port 7865`);
 });
 
 module.exports = app;
