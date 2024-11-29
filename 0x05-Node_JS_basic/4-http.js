@@ -5,13 +5,13 @@ const HOST = 'localhost';
 const app = http.createServer();
 
 app.on('request', (_, rsp) => {
-  const responseText = 'Hello Holberton School!';
+  const message = 'Hello Holberton School!';
 
   rsp.writeHead(200, {
     'Content-Type': 'text/plain',
-    'Content-Length': Buffer.byteLength(responseText, 'utf-8'),
+    'Content-Length': Buffer.byteLength(message, 'utf-8'),
   });
-  rsp.end(responseText);
+  rsp.end(message);
 });
 
 app.listen(port, HOST, () => {
