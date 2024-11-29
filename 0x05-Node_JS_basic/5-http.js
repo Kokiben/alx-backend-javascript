@@ -53,44 +53,44 @@ const countStudents = (path) => new Promise((resolve, reject) => {
 const routes = [
   {
     path: '/',
-    handler(_, res) {
+    handler(_, rs) {
       const text = 'Hello Holberton School!';
-      res.setHeader('Content-Type', 'text/plain');
-      res.setHeader('Content-Length', text.length);
-      res.statusCode = 200;
-      res.write(Buffer.from(text));
+      rs.setHeader('Content-Type', 'text/plain');
+      rs.setHeader('Content-Length', text.length);
+      rs.statusCode = 200;
+      rs.write(Buffer.from(text));
     },
   },
   {
     path: '/students',
-    handler(_, res) {
+    handler(_, rs) {
       const response = ['This is the list of our students'];
 
       countStudents(DB)
         .then((report) => {
           response.push(report);
           const text = response.join('\n');
-          res.setHeader('Content-Type', 'text/plain');
-          res.setHeader('Content-Length', text.length);
-          res.statusCode = 200;
-          res.write(Buffer.from(text));
+          rs.setHeader('Content-Type', 'text/plain');
+          rs.setHeader('Content-Length', text.length);
+          rs.statusCode = 200;
+          rs.write(Buffer.from(text));
         })
         .catch((err) => {
           response.push(err instanceof Error ? err.message : err.toString());
           const text = response.join('\n');
-          res.setHeader('Content-Type', 'text/plain');
-          res.setHeader('Content-Length', text.length);
-          res.statusCode = 200;
-          res.write(Buffer.from(text));
+          rs.setHeader('Content-Type', 'text/plain');
+          rs.setHeader('Content-Length', text.length);
+          rs.statusCode = 200;
+          rs.write(Buffer.from(text));
         });
     },
   },
 ];
 
-app.on('request', (req, res) => {
+app.on('request', (rq, rs) => {
   for (const route of routes) {
-    if (route.path === req.url) {
-      route.handler(req, res);
+    if (route.path === rq.url) {
+      route.handler(rq, rs);
       break;
     }
   }
