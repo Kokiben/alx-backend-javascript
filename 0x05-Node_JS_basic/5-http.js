@@ -1,106 +1,118 @@
 const http = require('http');
 const fs = require('fs');
 
-const port = 1245;
+const PORT = 1245;
 const HOST = 'localhost';
 const app = http.createServer();
-const dbFilePath = process.argv.length > 2 ? process.argv[2] : '';
+const DB_FILE = process.argv.length > 2 ? process.argv[2] : '';
 
 /**
- * Parses a CSV file to count students and group them by a specified field.
- * @param {string} csvFilePath - path to CSV file containing stdt data.
- * @returns {Promise<string>} A promise resolves report of student counts.
+ * Counts the students in a CSV data file.
+ * @param {String} dataPath The path to the CSV data file.
+ * @author Bezaleel Olakunori <https://github.com/B3zaleel>
  */
-const countStudentsInFile = (csvFilePath) => new Promise((resolve, reject) => {
-  if (!csvFilePath) {
-    return reject(new Error('Cannot load the database'));
+const countStudents = (dataPath) => new Promise((resolve, reject) => {
+  if (!dataPath) {
+    reject(new Error('Cannot load the database'));
   }
-  fs.readFile(csvFilePath, (err, data) => {
-    if (err) {
-      return reject(new Error('Cannot load the database'));
-    }
-    const reportParts = [];
-    const lines = data.toString('utf-8').trim().split('\n');
-    const groupsByField = {};
-    const fieldNames = lines[0].split(',');
-    const propertyNames = fieldNames.slice(0, fieldNames.length - 1);
-
-    for (const line of lines.slice(1)) {
-      const record = line.split(',');
-      const propertyValues = record.slice(0, record.length - 1);
-      const field = record[record.length - 1];
-      if (!groupsByField[field]) {
-        groupsByField[field] = [];
+  if (dataPath) {
+    fs.readFile(dataPath, (err, data) => {
+      if (err) {
+        reject(new Error('Cannot load the database'));
       }
-      const entries = propertyNames.map((propName, idx) => [
-        propName,
-        propertyValues[idx],
-      ]);
-      groupsByField[field].push(Object.fromEntries(entries));
-    }
+      if (data) {
+        const reportParts = [];
+        const fileLines = data.toString('utf-8').trim().split('\n');
+        const studentGroups = {};
+        const dbFieldNames = fileLines[0].split(',');
+        const studentPropNames = dbFieldNames.slice(
+          0,
+          dbFieldNames.length - 1,
+        );
 
-    const totalStudents = Object.values(groupsByField).reduce(
-      (pre, cur) => pre + cur.length, 0
-    );
-    reportParts.push(`Number of students: ${totalStudents}`);
-    for (const [field, group] of Object.entries(groupsByField)) {
-      reportParts.push(
-        `Number of students in ${field}: ${group.length}. List: ${group.map((student) => student.firstname).join(', ')}`
-      );
-    }
-    resolve(reportParts.join('\n'));
-  });
+        for (const line of fileLines.slice(1)) {
+          const studentRecord = line.split(',');
+          const studentPropValues = studentRecord.slice(
+            0,
+            studentRecord.length - 1,
+          );
+          const field = studentRecord[studentRecord.length - 1];
+          if (!Object.keys(studentGroups).includes(field)) {
+            studentGroups[field] = [];
+          }
+          const studentEntries = studentPropNames.map((propName, idx) => [
+            propName,
+            studentPropValues[idx],
+          ]);
+          studentGroups[field].push(Object.fromEntries(studentEntries));
+        }
+
+        const totalStudents = Object.values(studentGroups).reduce(
+          (pre, cur) => (pre || []).length + cur.length,
+        );
+        reportParts.push(`Number of students: ${totalStudents}`);
+        for (const [field, group] of Object.entries(studentGroups)) {
+          reportParts.push([ 
+            `Number of students in ${field}: ${group.length}.`,
+            'List:',
+            group.map((student) => student.firstname).join(', '),
+          ].join(' '));
+        }
+        resolve(reportParts.join('\n'));
+      }
+    });
+  }
 });
-
-/**
- * headers and content.
- * rsp The response object.
- * The HTTP status code.
- * message The message to send.
- */
-const sendResponse = (rsp, statusCode, message) => {
-  rsp.statusCode = statusCode;
-  rsp.setHeader('Content-Type', 'text/plain');
-  rsp.setHeader('Content-Length', Buffer.byteLength(message, 'utf-8'));
-  rsp.end(message);
-};
 
 const SERVER_ROUTE_HANDLERS = [
   {
     route: '/',
-    handler(_, rsp) {
-      sendResponse(rsp, 200, 'Hello Holberton School!');
+    handler(_, rs) {
+      const responseText = 'Hello Holberton School!';
+
+      rs.setHeader('Content-Type', 'text/plain');
+      rs.setHeader('Content-Length', responseText.length);
+      rs.statusCode = 200;
+      rs.write(Buffer.from(responseText));
     },
   },
   {
     route: '/students',
-    handler(_, rsp) {
-      const responseContent = ['This is the list of our students'];
+    handler(_, rs) {
+      const responseParts = ['This is the list of our students'];
 
-      countStudentsInFile(dbFilePath)
+      countStudents(DB_FILE)
         .then((report) => {
-          responseContent.push(report);
-          sendResponse(rsp, 200, responseContent.join('\n'));
+          responseParts.push(report);
+          const responseText = responseParts.join('\n');
+          rs.setHeader('Content-Type', 'text/plain');
+          rs.setHeader('Content-Length', responseText.length);
+          rs.statusCode = 200;
+          rs.write(Buffer.from(responseText));
         })
         .catch((err) => {
-          responseContent.push(err instanceof Error ? err.message : err.toString());
-          sendResponse(rsp, 500, responseContent.join('\n'));
+          responseParts.push(err instanceof Error ? err.message : err.toString());
+          const responseText = responseParts.join('\n');
+          rs.setHeader('Content-Type', 'text/plain');
+          rs.setHeader('Content-Length', responseText.length);
+          rs.statusCode = 200;
+          rs.write(Buffer.from(responseText));
         });
     },
   },
 ];
 
-app.on('request', (req, rsp) => {
+app.on('request', (rq, rs) => {
   for (const routeHandler of SERVER_ROUTE_HANDLERS) {
-    if (routeHandler.route === req.url) {
-      routeHandler.handler(req, rsp);
+    if (routeHandler.route === rq.url) {
+      routeHandler.handler(rq, rs);
       break;
     }
   }
 });
 
-app.listen(port, HOST, () => {
-  process.stdout.write(`Server listening at -> http://${HOST}:${port}\n`);
+app.listen(PORT, HOST, () => {
+  process.stdout.write(`Server listening at -> http://${HOST}:${PORT}\n`);
 });
 
 module.exports = app;
