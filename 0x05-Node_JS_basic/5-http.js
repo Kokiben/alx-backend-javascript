@@ -7,8 +7,8 @@ const app = http.createServer();
 const DB = process.argv.length > 2 ? process.argv[2] : '';
 
 /**
- * Counts the students in a CSV data file.
- * @param {String} path The path to the CSV data file.
+ * counts stds in a CSV dtf.
+ * @param {String} path to CSV dtf.
  */
 const countStudents = (path) => new Promise((resolve, reject) => {
   if (!path) {
