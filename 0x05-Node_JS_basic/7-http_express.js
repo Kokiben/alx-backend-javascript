@@ -1,15 +1,15 @@
 const http = require('http');
 const fs = require('fs');
 
-const PORT = 1245;
+const port = 1245;
 const HOST = 'localhost';
 const app = http.createServer();
-const DB_FILE = process.argv.length > 2 ? process.argv[2] : '';
+const DB = process.argv.length > 2 ? process.argv[2] : '';
 
 /**
- * Counts the students in a CSV data file.
- * @param {String} dPath The path to the CSV data file.
- * @author Bezaleel Olakunori <https://github.com/B3zaleel>
+ * count std in d.
+ * @param {String} dPath path CSV df.
+ * 
  */
 const countStudents = (dPath) => new Promise((resolve, reject) => {
   if (!dPath) {
@@ -68,7 +68,7 @@ const SERVER_ROUTE_HANDLERS = [
     handler(_, res) {
       const responseParts = ['This is the list of our students'];
 
-      countStudents(DB_FILE)
+      countStudents(DB)
         .then((report) => {
           responseParts.push(report);
           const responseText = responseParts.join('\n');
@@ -98,8 +98,8 @@ app.on('request', (req, res) => {
   }
 });
 
-app.listen(PORT, HOST, () => {
-  process.stdout.write(`Server listening at -> http://${HOST}:${PORT}\n`);
+app.listen(port, HOST, () => {
+  process.stdout.write(`Server listening at -> http://${HOST}:${port}\n`);
 });
 
 module.exports = app;
